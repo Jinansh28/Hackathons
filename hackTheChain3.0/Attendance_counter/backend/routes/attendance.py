@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models.attendance import Attendance
-from app import db
 from services.face_recognition import process_attendance
+from app import db
 
 attendance_bp = Blueprint('attendance', __name__)
 

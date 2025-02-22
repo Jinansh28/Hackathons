@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background Animation */
+        @keyframes moveBackground {
+            0% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(-20px) translateX(20px); }
+            100% { transform: translateY(0) translateX(0); }
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent);
+            animation: moveBackground 10s ease-in-out infinite;
+        }
+
+        /* Container Styles */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+            animation: rotate 6s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1rem;
+            color: white;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            border-radius: 50px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        button:hover::before {
+            opacity: 1;
+        }
+
+        button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Glowing effect on hover */
+        button::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.5s ease;
+            z-index: -1;
+        }
+
+        button:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .message {
+            margin-top: 25px;
+            font-size: 1.1rem;
+            color: #4CAF50;
+            font-weight: bold;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        /* Animation for the message */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Decorative shapes */
+        .shape {
+            position: absolute;
+            background: rgba(100, 149, 237, 0.2);
+            animation: float 6s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .shape.circle { border-radius: 50%; }
+        .shape.triangle { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); }
+        .shape.square { border-radius: 10px; }
+
+        .shape:nth-child(1) { width: 100px; height: 100px; top: 10%; left: 5%; animation-duration: 8s; }
+        .shape:nth-child(2) { width: 150px; height: 150px; bottom: 10%; right: 5%; animation-duration: 10s; }
+        .shape:nth-child(3) { width: 120px; height: 120px; top: 20%; right: 10%; animation-duration: 12s; }
+        .shape:nth-child(4) { width: 80px; height: 80px; bottom: 20%; left: 10%; animation-duration: 9s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="background"></div>
+
+    <!-- Decorative Shapes -->
+    <div class="shape circle"></div>
+    <div class="shape triangle"></div>
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1>Real-Time Attendance Monitoring</h1>
+        <div class="buttons">
+            <button onclick="captureTrainingFaces()">Capture Training Faces</button>
+            <button onclick="captureSnapshots()">Capture Snapshots</button>
+        </div>
+        <div class="message">{{ message }}</div>
+    </div>
+
+    <script>
+        function captureTrainingFaces() {
+            const studentName = prompt("Enter Student Name for Training:");
+            if (studentName) {
+                fetch(`/capture_training_faces?student_name=${studentName}`)
+                    .then(response => response.text())
+                    .then(data => alert(data))
+                    .catch(error => alert("Error: " + error));
+            }
+        }
+
+        function captureSnapshots() {
+            fetch('/capture_snapshots')
+                .then(response => response.text())
+                .then(data => alert(data))
+                .catch(error => alert("Error: " + error));
+        }
+    </script>
+</body>
+</html>

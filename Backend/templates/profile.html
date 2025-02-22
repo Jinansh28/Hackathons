@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Records - {{ teacher }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Attendance Records for {{ teacher }}</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Student ID</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody id="attendance-records">
+            <!-- Attendance records will be populated here -->
+        </tbody>
+    </table>
+    <br>
+    <a href="{{ url_for('index') }}">Back to Profiles</a>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        const teacher = "{{ teacher }}";
+        fetchAttendance(teacher);
+    </script>
+</body>
+</html>
