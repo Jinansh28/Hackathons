@@ -1,0 +1,8 @@
+Flask
+Flask-Cors
+Flask-SQLAlchemy
+pymysql
+face_recognition
+opencv-python
+pandas
+openpyxl
